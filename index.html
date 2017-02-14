@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+</head>
+<body ng-app="pokedex">
+
+	<div class="container">
+		<h1>Pokésir</h1>
+
+		<!-- Search -->
+		<div ng-controller="Controller">
+      <form name="Form" >
+        <label>Id :
+          <input type="text" name="id"
+                 ng-model="id"
+
+                 />
+        </label>
+        <br/>
+        <label>Name :
+          <input type="text" name="name"
+                 ng-model="name"
+
+                 />
+        </label>
+        <br/>
+        <label>Pokemon :
+          <select ng-model="donnees.model">
+                 <option ng-repeat="option in donnees.pokemons | filter:id | filter:name" ng-click=changeValue(option.id,option.name) value={{option.id}}> {{option.id}} : {{option.name}}</option>
+         </select>
+        </label>
+        <br/>
+        <button type="button" value="Go" ng-click=$log.log(printPokemon(name))>Go!</button>
+        <button type="reset" value="Reset" ng-click=reset() > Reset</button>
+
+      </form>
+    </div>
+
+		<!-- Pokémon information -->
+		<div></div>
+
+	</div>
+
+    <!-- Dependencies -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-resource.min.js"></script>
+
+    <!-- Pokedex app -->
+    <script src="js/pokedex.js"></script>
+
+
+</body>
+</html>
