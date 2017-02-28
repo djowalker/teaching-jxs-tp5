@@ -16,22 +16,17 @@
 		<div ng-controller="Controller">
       <form name="Form" >
         <label>Id :
-          <input type="text" name="id"
-                 ng-model="id"
-
-                 />
+          <input type="text" name="id" ng-model="id" />
         </label>
         <br/>
         <label>Name :
-          <input type="text" name="name"
-                 ng-model="name"
-
-                 />
+          <input type="text" name="name" ng-model="name" />
         </label>
         <br/>
         <label>Pokemon :
           <select ng-model="donnees.model">
-                 <option ng-repeat="option in donnees.pokemons | filter:id | filter:name" ng-click=changeValue(option.id,option.name) value={{option.id}}> {{option.id}} : {{option.name}}</option>
+                 <!-- <option ng-repeat="option in donnees.pokemons | filter:id | filter:name" ng-click=changeValue(option.id,option.name) value={{option.id}}> {{option.id}} : {{option.name}}</option> -->
+                 <option ng-repeat="option in donnees.pokemons | orderBy:'id'| filter:id | filter:name"  ng-click=changeValue(option.id,option.name) value={{option.id}}> {{option.id}} : {{option.name}}</option>
          </select>
         </label>
         <br/>

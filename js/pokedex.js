@@ -7,21 +7,12 @@ pokeApp.config(['$resourceProvider', function($resourceProvider) {
     $resourceProvider.defaults.stripTrailingSlashes = false;
 }]);
 
-pokeApp.controller("Controller",data);
+pokeApp.controller("Controller", data);
 
-  function data($scope,$log){
+  function data($scope,$log,$http){
     $scope.donnees ={
-    pokemons :[
-      {name : 'Pikachu' , id : 1},
-      {name : 'Bulbizarre' , id : 2},
-      {name : 'Herbizarre' , id : 3},
-      {name : 'Aspicot' , id : 4},
-      {name : 'Ortide' , id : 5},
-      {name : 'Kabuto' , id : 6},
-      {name : 'Pyroli' , id : 7},
-      {name : 'Mew' , id : 8},
-      {name : 'Ronflex' , id : 9}
-    ]};
+    pokemons : []
+  };
 
     $scope.$log = $log;
 
@@ -44,4 +35,23 @@ pokeApp.controller("Controller",data);
       $scope.name = '';
     }
 
+  $http({
+      method: 'GET',
+      url : "http://pokeapi.co/api/v1/pokedex/"
+    }).then(function successCallback(response) {
+      console.log(response.data.objects[0].pokemon);
+       response.data.objects[0].pokemon.forEach(function(poke){
+         var nom=poke.name;
+         $http.get("http://pokeapi.co/"+poke.resource_uri)
+            .then(function(response2){
+              $scope.donnees.pokemons.push({"name":nom,"id":response2.data.pkdx_id});
+            }
+          );
+
+
+
+
+        });
+        console.log($scope.donnees);
+      });
   }
