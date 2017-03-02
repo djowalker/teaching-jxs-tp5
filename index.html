@@ -33,7 +33,7 @@
             <br/>
             <button type="button" value="Go" ng-click=$log.log(printPokemon(name))>Go!</button>
             <button type="reset" value="Reset" ng-click=reset() > Reset</button>
-
+            <button ng-controller="ControllerRessource" type="button" value="AfficherRessource" ng-click=displayPokemon(id)>Afficher Via Ressource </button>
           </form>
         </div>
         <br>
@@ -44,6 +44,11 @@
             Abilities :
             <li ng-repeat="option in donnees.pokemon">{{option}}</li>
             </ul>
+          </div>
+        </div>
+        <div ng-controller="ControllerRessource" >
+          <div ng-if=!nameVide()>
+            {{pokemonToString()}}
           </div>
         </div>
     </div>

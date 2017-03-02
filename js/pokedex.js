@@ -7,9 +7,16 @@ pokeApp.config(['$resourceProvider', function($resourceProvider) {
     $resourceProvider.defaults.stripTrailingSlashes = false;
 }]);
 
+pokeApp.factory('ressourceService', ['$resource',
+    function($resource){
+      return $resource('http://pokeapi.co/api/v1/pokemon/:id/', {id:'@id'});
+    }]
+  );
+
+
 pokeApp.controller("Controller", data);
 
-  function data($scope,$log,$http){
+  function data($scope,$log,$http,ressourceService){
 
 
     $scope.donnees ={
@@ -56,7 +63,6 @@ pokeApp.controller("Controller", data);
       $scope.id = '';
       $scope.name = '';
       $scope.selected = false;
-
     }
 
   $http({
@@ -77,15 +83,36 @@ pokeApp.controller("Controller", data);
           );
 
         });
-        console.log($scope.donnees);
+
       });
   }
 
+  pokeApp.controller("ControllerRessource", data2);
+  function data2($scope,ressourceService){
+    $scope.pokemon = {
+      name : '',
+      id : '',
+      moves : []
+    };
+    $scope.displayPokemon = function(idTemp){
+      var pok = ressourceService.get({id:idTemp}, function(data){
+        $scope.pokemon.name=data.name;
+        $scope.pokemon.id=data.pkdx_id;
+        data.moves.forEach(function(move){
+          $scope.pokemon.moves.push(move.name);
+        });
+        console.log(data);
+      }
 
-  pokeApp.factory('ressourceService', function() {
-    var pikachu = $ressource(
-      POKEAPI+'/api/v1/pokemon/pikachu/',
-      {}
-    );
 
-});
+      );
+      console.log($scope.pokemon);
+
+    };
+    $scope.pokemonToString= function(){
+      return "mescouilles";
+    };
+    $scope.nameVide = function(){
+      return $scope.pokemon.name === '';
+    }
+  }
