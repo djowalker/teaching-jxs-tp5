@@ -47,7 +47,6 @@ pokeApp.controller("Controller", data);
         var i = 0;
         while (i < $scope.donnees.pokemons.length){
           if($scope.donnees.pokemons[i].id === $scope.id){
-
             return $scope.donnees.pokemons[i].abilities;
           }
           i++;
@@ -55,6 +54,7 @@ pokeApp.controller("Controller", data);
     }
 
     $scope.changeValue = function($id,$name){
+
       $scope.id = $id;
       $scope.name = $name;
 
@@ -98,8 +98,14 @@ pokeApp.controller("Controller", data);
       var pok = ressourceService.get({id:idTemp}, function(data){
         $scope.pokemon.name=data.name;
         $scope.pokemon.id=data.pkdx_id;
+
+		// reset de l'array pour chaque nouveau pokemon sélectionné
+		if($scope.pokemon.moves.length >1){
+			$scope.pokemon.moves.length = 0;
+		}
+		
         data.moves.forEach(function(move){
-          $scope.pokemon.moves.push(move.name);
+		  $scope.pokemon.moves.push(move.name);
         });
         console.log(data);
       }
@@ -110,7 +116,7 @@ pokeApp.controller("Controller", data);
 
     };
     $scope.pokemonToString= function(){
-      return "mescouilles";
+      return $scope.pokemon;
     };
     $scope.nameVide = function(){
       return $scope.pokemon.name === '';

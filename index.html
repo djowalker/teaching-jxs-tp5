@@ -14,44 +14,44 @@
 
 		<!-- Search -->
 		<div ng-controller="Controller">
-        <div>
-          <form name="Form" >
-            <label>Id :
-              <input type="text" name="id" ng-model="id" />
-            </label>
-            <br/>
-            <label>Name :
-              <input type="text" name="name" ng-model="name" />
-            </label>
-            <br/>
-            <label>Pokemon :
-              <select ng-model="donnees.model">
-                     <!-- <option ng-repeat="option in donnees.pokemons | filter:id | filter:name" ng-click=changeValue(option.id,option.name) value={{option.id}}> {{option.id}} : {{option.name}}</option> -->
-                     <option ng-repeat="option in donnees.pokemons | orderBy:'id'| filter:id | filter:name"  ng-click=changeValue(option.id,option.name) value={{option.id}}> {{option.id}} : {{option.name}}</option>
-             </select>
-            </label>
-            <br/>
-            <button type="button" value="Go" ng-click=$log.log(printPokemon(name))>Go!</button>
-            <button type="reset" value="Reset" ng-click=reset() > Reset</button>
-            <button ng-controller="ControllerRessource" type="button" value="AfficherRessource" ng-click=displayPokemon(id)>Afficher Via Ressource </button>
-          </form>
-        </div>
-        <br>
-  		<!-- Pokémon information -->
-        <div ng-if=selected>
-          <div>
-            <ul >
-            Abilities :
-            <li ng-repeat="option in donnees.pokemon">{{option}}</li>
-            </ul>
-          </div>
-        </div>
-        <div ng-controller="ControllerRessource" >
-          <div ng-if=!nameVide()>
-            {{pokemonToString()}}
-          </div>
-        </div>
-    </div>
+			<div>
+			  <form name="Form" >
+				<label>Id :
+				  <input type="text" name="id" ng-model="id"  />
+				</label>
+				<br/>
+				<label>Name :
+				  <input type="text" name="name" ng-model="name" />
+				</label>
+				<br/>
+				<label>Pokemon :
+				  <select ng-model="donnees.model">
+						 <!--<option ng-repeat="option in donnees.pokemons | filter:id | filter:name" ng-click=changeValue(option.id,option.name) value={{option.id}}> {{option.id}} : {{option.name}}</option>-->
+						 <option ng-repeat="option in donnees.pokemons | orderBy:'id'| filter:id | filter:name"  ng-click=changeValue(option.id,option.name) value={{option.id}}> {{option.id}} : {{option.name}}</option>
+				 </select>
+				</label>
+				<br/>
+				<button type="button" value="Go" ng-click=$log.log(printPokemon(name))>Go!</button>
+				<button type="reset" value="Reset" ng-click=reset() > Reset</button>
+				<button ng-controller="ControllerRessource" type="button" value="AfficherRessource" ng-click=displayPokemon(id)>Afficher Via Ressource </button>
+			  </form>
+			</div>
+			<br>
+			<!-- Pokémon information -->
+			<div ng-if=selected>
+			  <div>
+				<ul >
+				Abilities :
+				<li ng-repeat="option in donnees.pokemon">{{option}}</li>
+				</ul>
+			  </div>
+			</div>
+			<div ng-controller="ControllerRessource" >
+			  <div ng-if=!nameVide()>
+				{{pokemonToString()}}
+			  </div>
+			</div>
+		</div>
 
 	</div>
 
