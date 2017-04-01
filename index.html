@@ -1,87 +1,22 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>Pokesir TP Letellier Aodren - Monfort Jordan</title>
 
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+	<!-- Dependencies -->
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/angular.min.js"></script>
+	<script src="js/angular-resource.min.js"></script>
 
+	<!-- Pokedex app -->
+	<script src="js/pokedex.js"></script>
 </head>
 <body ng-app="pokedex">
-
 <div class="container">
-    <h1>Pokésir</h1>
-
-    <!-- Search -->
-    <div ng-controller="Controller">
-        <div>
-            <form name="Form">
-                <div class="form-group">
-                    <label>Id : </label>
-                    <input type="text" class="form-control" name="id" ng-model="id"/></div>
-                <div class="form-group">
-                    <label>Name : </label>
-                    <input type="text" class="form-control" name="name"  ng-model="name"/>
-                </div>
-                <div class="form-group">
-                    <label>Pokemon : </label>
-                    <select ng-model="select" class="form-control">
-                        <!--<option ng-repeat="option in donnees.pokemons | filter:id | filter:name" ng-click=changeValue(option.id,option.name) value={{option.id}}> {{option.id}} : {{option.name}}</option>-->
-                        <option ng-repeat="option in donnees.pokemons | orderBy:'id'| filter:id | filter:name"
-                                ng-click=changeValue(option.id,option.name) value={{option.id}}> {{option.id}} :
-                            {{option.name}}
-                        </option>
-                    </select>
-                </div>
-                <div class="btn-block">
-                <button class="btn btn-primary btn" type="button" value="Afficher Informations Pokemon" ng-click=$log.log(printPokemon(name))>
-                    Afficher Informations Pokemon
-                </button>
-                <button class="btn btn-primary" type="button" value="Go" ng-click=searchingIdPoke(id,name)>Go !</button>
-                <button class="btn btn-primary" type="reset" value="Reset" ng-click=reset()> Reset</button>
-                </div>
-            </form>
-        </div>
-        <br>
-        <!-- Pokémon information -->
-        <div ng-if=selected>
-            <div>
-                <ul>
-                    <h4>Abilities :</h4>
-                    <li ng-repeat="option in donnees.pokemon">{{option}}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div ng-controller="ControllerRessource">
-        <button  class="btn btn-primary" type="button" value="AfficherRessource" > <!-- ng-click="pokemonToString()" ng-click=displayPokemon(id)>-->
-            Afficher Via Ressource
-        </button>
-
-        <!--Non Fonctionnel -->
-        <div ng-if=showInfo ng-init="pokemonToString()">
-            <ul>
-                <h4>Moves :</h4>
-                <li ng-repeat="option in pokemon.moves">{{option}}</li>
-            </ul>
-            <ul>
-                <h4>Abilities :</h4>
-                <li ng-repeat="option in pokemon.abilities">{{option}}</li>
-            </ul>
-        </div>
-    </div>
+	<ng-pokedex></ng-pokedex>
 </div>
-
-
-<!-- Dependencies -->
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/angular.min.js"></script>
-<script src="js/angular-resource.min.js"></script>
-
-<!-- Pokedex app -->
-<script src="js/pokedex.js"></script>
-
-
 </body>
 </html>

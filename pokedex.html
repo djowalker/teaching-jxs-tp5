@@ -1,0 +1,59 @@
+﻿
+<h1>Pokésir</h1>
+<!-- Search -->
+<div ng-controller="Controller">
+	<form name="Form" >
+		<div class="form-group">
+			<label>Id :</label>
+			<input class="form-control" type="text" name="id" ng-model="id" ng-change="changeInput(0)"  />
+		</div>
+		<div class="form-group">
+			<label>Name :</label>
+			<input class="form-control"  type="text" name="name" ng-model="name" ng-change="changeInput(1)" />
+		</div>
+		<div class="form-group">
+			<label>Pokemon list:</label>
+			 <select class="form-control"  ng-model ="donnees.selected" ng-change="changeValue()" >
+				<option ng-repeat="option in donnees.pokemons | orderBy:'id'| filter:name | filter:id" value="{{option.id}}:{{option.name}}"> {{option.id}} : {{option.name}}</option>
+			</select>
+		</div>
+		<button class="btn btn-primary" type="button" ng-click="printPokemon(name)" >Print informations into console</button>
+		<button class="btn btn-primary" type="reset" ng-click="reset()" >Reset</button>
+	</form>
+</div>
+<br>
+<!-- Pokemon information -->
+<div ng-controller="ControllerRessource">
+	<button class="btn btn-primary" type="button" value="AfficherRessource" ng-click="displayPokemon()">Display Informations</button>
+	<!-- <button class="btn btn-primary" type="button" value="undisplay" ng-click=unDisplay()>Undisplay</button>-->
+	<div ng-if="displayed">
+		<div class="row">
+				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+					<h4>Id :</h4>
+					<p>{{pokemon2.id}}</p>
+				</div>
+				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+					<h4>Name :</h4>
+					<p>{{pokemon2.name}}</p>
+				</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+				<div ng-if="pokemon2.abilities.length>0">
+					<h4>Abilities :</h4>
+					<ul class="list-group">
+						<li class="list-group-item" ng-repeat="option in pokemon2.abilities">{{option}}</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+				<div ng-if="pokemon2.moves.length>0">
+					<h4>Moves :</h4>
+					<ul class="list-group">								
+						<li class="list-group-item" ng-repeat="option in pokemon2.moves">{{option}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
