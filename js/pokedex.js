@@ -13,112 +13,129 @@ pokeApp.factory('ressourceService', ['$resource',
     }]
   );
 
+pokeApp.factory('serviceCommun', [function(){
+    return {nameCom: "",idCom: ""};
+  }
+]);
 
 pokeApp.controller("Controller", data);
 
-  function data($scope,$log,$http,ressourceService){
+  function data($scope,$log,$http,ressourceService,serviceCommun){
 
+    $scope.name = serviceCommun.nameCom;
+    $scope.id = serviceCommun.idCom;
+    $scope.$watch(
+        function(){return $scope.id;},
+        function(newValue, oldValue) {
+          if (newValue !== oldValue){
+            serviceCommun.nameCom = $scope.name;
+            serviceCommun.idCom = $scope.id;
+          }
+        }
+    );
 
     $scope.donnees ={
     pokemons : [],
-    pokemon : []
-
+    pokemon : {},
+    selected : ""
   };
 
     $scope.$log = $log;
 
     $scope.printPokemon = function(namePokemon){
-
       for (var i = 0; i<$scope.donnees.pokemons.length;i++){
         if ($scope.donnees.pokemons[i].name === namePokemon){
           $scope.selected = true;
-          console.log($scope.selectedPokemon());
-          $scope.donnees.pokemon=$scope.selectedPokemon();
-          console.log($scope.donnees.pokemon);
+          $scope.donnees.pokemon=$scope.saveSelectedPokemon(i);
           return $scope.donnees.pokemons[i].name;
         }
-
       }
       $scope.selected = false;
       return "pokemon non trouvé ";
     }
 
-    $scope.selectedPokemon = function(){
-        var i = 0;
-        while (i < $scope.donnees.pokemons.length){
-          if($scope.donnees.pokemons[i].id === $scope.id){
-            return $scope.donnees.pokemons[i].abilities;
-          }
-          i++;
-        }
+    $scope.saveSelectedPokemon = function(i){
+        return $scope.donnees.pokemons[i];
     }
 
     $scope.changeValue = function($id,$name){
-
+      console.log($id,$name);
       $scope.id = $id;
       $scope.name = $name;
+      console.log($scope.id,$scope.name);
 
     }
+    $scope.changeValueBis = function (){
+      pok = $scope.donnees.selected;
+      console.log(pok);
+       $scope.id = pok.slice(0,pok.indexOf(':'));
+       $scope.name = pok.slice(pok.indexOf(':')+1,pok.length);
+       console.log(serviceCommun);
+       console.log($scope.id,$scope.name);
+    }
+
     $scope.reset = function(){
-      $scope.id = '';
-      $scope.name = '';
-      $scope.selected = false;
+       $scope.id = '';
+       $scope.name = '';
+       $scope.selected = false;
     }
 
   $http({
       method: 'GET',
       url : "http://pokeapi.co/api/v1/pokedex/"
     }).then(function successCallback(response) {
-      //console.log(response.data.objects[0].pokemon);
+
        response.data.objects[0].pokemon.forEach(function(poke){
          var nom = poke.name;
          var abilities = [];
+         var id ="";
          $http.get("http://pokeapi.co/"+poke.resource_uri)
             .then(function(response2){
+              id = response2.data.pkdx_id;
               response2.data.abilities.forEach(function(ability){
                 abilities.push(ability.name);
               });
-              $scope.donnees.pokemons.push({"name":nom,"id":response2.data.pkdx_id,"abilities":abilities});
+              $scope.donnees.pokemons.push({"name":nom,"id":id,"abilities":abilities});
             }
           );
-
         });
 
+        console.log($scope.donnees);
       });
   }
 
   pokeApp.controller("ControllerRessource", data2);
-  function data2($scope,ressourceService){
-    $scope.pokemon = {
-      name : '',
-      id : '',
+  function data2($scope,ressourceService,serviceCommun){
+    $scope.$watch(
+        function(){return serviceCommun.nameCom;},
+        function(newValue, oldValue) {
+          if (newValue !== oldValue){
+            $scope.pokemon2.name = serviceCommun.nameCom;
+            $scope.pokemon2.id  = serviceCommun.idCom;
+          }
+          if (newValue === ""){
+            $scope.displayed = false;
+          }
+        }
+    );
+    $scope.displayed=false;
+    $scope.pokemon2 = {
+      name : serviceCommun.nameCom,
+      id : serviceCommun.idCom,
       moves : []
     };
-    $scope.displayPokemon = function(idTemp){
-      var pok = ressourceService.get({id:idTemp}, function(data){
-        $scope.pokemon.name=data.name;
-        $scope.pokemon.id=data.pkdx_id;
-
-		// reset de l'array pour chaque nouveau pokemon sélectionné
-		if($scope.pokemon.moves.length >1){
-			$scope.pokemon.moves.length = 0;
-		}
-		
-        data.moves.forEach(function(move){
-		  $scope.pokemon.moves.push(move.name);
-        });
-        console.log(data);
-      }
-
-
-      );
-      console.log($scope.pokemon);
-
-    };
-    $scope.pokemonToString= function(){
-      return $scope.pokemon;
-    };
-    $scope.nameVide = function(){
-      return $scope.pokemon.name === '';
+    $scope.displayPokemon = function(){
+      console.log(serviceCommun);
+      console.log($scope.pokemon2);
+      var pok = ressourceService.get({id:$scope.pokemon2.id}, function(data){
+          $scope.displayed = true;
+		      // reset de l'array pour chaque nouveau pokemon sélectionné
+		      if($scope.pokemon2.moves.length >1){
+			         $scope.pokemon2.moves.length = 0;
+		       }
+          data.moves.forEach(function(move){
+		          $scope.pokemon2.moves.push(move.name);
+          });
+      });
     }
   }

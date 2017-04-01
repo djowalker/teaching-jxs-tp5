@@ -25,16 +25,17 @@
 				</label>
 				<br/>
 				<label>Pokemon :
-				  <select ng-model="donnees.model">
+				  <select ng-model ="donnees.selected" ng-change="changeValueBis()" >
 						 <!--<option ng-repeat="option in donnees.pokemons | filter:id | filter:name" ng-click=changeValue(option.id,option.name) value={{option.id}}> {{option.id}} : {{option.name}}</option>-->
-						 <option ng-repeat="option in donnees.pokemons | orderBy:'id'| filter:id | filter:name"  ng-click=changeValue(option.id,option.name) value={{option.id}}> {{option.id}} : {{option.name}}</option>
+						 <option ng-repeat="option in donnees.pokemons | orderBy:'id'| filter:name" value="{{option.id}}:{{option.name}}"> {{option.id}} : {{option.name}}</option>
 				 </select>
 				</label>
 				<br/>
 				<button type="button" value="Go" ng-click=$log.log(printPokemon(name))>Go!</button>
 				<button type="reset" value="Reset" ng-click=reset() > Reset</button>
-				<button ng-controller="ControllerRessource" type="button" value="AfficherRessource" ng-click=displayPokemon(id)>Afficher Via Ressource </button>
-			  </form>
+
+
+        </form>
 			</div>
 			<br>
 			<!-- Pokémon information -->
@@ -42,17 +43,24 @@
 			  <div>
 				<ul >
 				Abilities :
-				<li ng-repeat="option in donnees.pokemon">{{option}}</li>
+				<li ng-repeat="option in donnees.pokemon.abilities">{{option}}</li>
 				</ul>
 			  </div>
 			</div>
-			<div ng-controller="ControllerRessource" >
-			  <div ng-if=!nameVide()>
-				{{pokemonToString()}}
-			  </div>
-			</div>
-		</div>
-
+    </div>
+    <div ng-controller="ControllerRessource">
+      <button type="button" value="AfficherRessource" ng-click=displayPokemon(id)>Afficher Via Ressource </button>
+      <div ng-if="displayed">
+        <div>Name : {{pokemon2.name}}</div>
+        <div>Id : {{pokemon2.id}}</div>
+        <div>Moves :
+          <ul>
+            <li ng-repeat="option in pokemon2.moves">{{option}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+</div>
 	</div>
 
     <!-- Dependencies -->
