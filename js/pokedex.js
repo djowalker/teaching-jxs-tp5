@@ -22,6 +22,16 @@ pokeApp.factory('serviceCommun', [function(){
   }
 ]);
 
+
+pokeApp.controller("SomeController", function(){
+  console.log("bonjour");
+});
+pokeApp.directive("myLink",function(){
+  return {
+    templateUrl: '../html/index.html'
+  };
+});
+
 // Premier contrôleur pour recherche
 pokeApp.controller("Controller", data);
 
