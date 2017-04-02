@@ -151,24 +151,22 @@ function data($scope,$log,$http,ressourceService,serviceCommun){
     $scope.fillMoves = function(){
       var pok = ressourceService.get({id:$scope.pokemon2.id}, function(data){
 		      // reset de l'array pour chaque nouveau pokemon sélectionné
-		      if($scope.pokemon2.moves.length >1){
-			         $scope.pokemon2.moves.length = 0;
-		       }
+          $scope.pokemon2.moves = [];
           data.moves.forEach(function(move){
 		          $scope.pokemon2.moves.push(move.name);
           });
       });
+      console.log($scope.pokemon2.moves);
     };
 	$scope.fillAbilities = function(){
       var pok = ressourceService.get({id:$scope.pokemon2.id}, function(data){
 		      // reset de l'array pour chaque nouveau pokemon sélectionné
-		      if($scope.pokemon2.abilities.length >1){
-			         $scope.pokemon2.abilities.length = 0;
-		       }
+          $scope.pokemon2.abilities = [];
           data.abilities.forEach(function(abilities){
-		          $scope.pokemon2.abilities.push(abilities.name);
+              $scope.pokemon2.abilities.push(abilities.name);
           });
       });
+      console.log($scope.pokemon2.abilities);
     };
     $scope.displayPokemon = function(){
       $scope.displayed = true;
@@ -185,9 +183,7 @@ function data($scope,$log,$http,ressourceService,serviceCommun){
             $scope.pokemon2.name = serviceCommun.nameCom;
             $scope.pokemon2.id  = serviceCommun.idCom;
             $scope.fillMoves();
-          }
-          if (serviceCommun.nameCom === ""){
-            $scope.displayed = false;
+              $scope.fillAbilities();
           }
         }
     );
